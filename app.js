@@ -7,9 +7,16 @@ class NPCGeneratorApp {
         this.form = document.getElementById('npcForm');
         this.outputDiv = document.getElementById('output');
         this.placeholderDiv = document.getElementById('placeholder');
+        this.outputControls = document.getElementById('outputControls');
+        this.downloadBtn = document.getElementById('downloadBtn');
+        this.printBtn = document.getElementById('printBtn');
+        this.fileUpload = document.getElementById('fileUpload');
         this.currentNPC = null;
 
         this.form.addEventListener('submit', (e) => this.handleSubmit(e));
+        this.downloadBtn.addEventListener('click', () => this.downloadJSON());
+        this.printBtn.addEventListener('click', () => this.print());
+        this.fileUpload.addEventListener('change', (e) => this.handleFileUpload(e));
     }
 
     handleSubmit(e) {
@@ -20,11 +27,47 @@ class NPCGeneratorApp {
             race: document.getElementById('race').value || null,
             class: document.getElementById('class').value || null,
             role: document.getElementById('role').value || null,
+            level: document.getElementById('level').value || null,
             isBoss: document.getElementById('isBoss').checked
         };
 
         this.currentNPC = generator.generate(options);
         this.render();
+    }
+
+    handleFileUpload(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            try {
+                this.currentNPC = JSON.parse(event.target.result);
+                this.render();
+            } catch (error) {
+                alert('Error loading JSON file: ' + error.message);
+            }
+        };
+        reader.readAsText(file);
+    }
+
+    downloadJSON() {
+        if (!this.currentNPC) return;
+
+        const dataStr = JSON.stringify(this.currentNPC, null, 2);
+        const dataBlob = new Blob([dataStr], { type: 'application/json' });
+        const url = URL.createObjectURL(dataBlob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `${this.currentNPC.name.replace(/\s+/g, '_')}_${this.currentNPC.level}.json`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+    }
+
+    print() {
+        window.print();
     }
 
     render() {
@@ -99,6 +142,7 @@ class NPCGeneratorApp {
 
         this.outputDiv.innerHTML = html;
         this.outputDiv.classList.remove('hidden');
+        this.outputControls.classList.remove('hidden');
         this.placeholderDiv.style.display = 'none';
     }
 

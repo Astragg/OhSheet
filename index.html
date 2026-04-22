@@ -62,23 +62,69 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="role">Role/Description</label>
-                        <input type="text" id="role" placeholder="e.g., two-handed warrior, stealthy rogue, boss mage">
+                        <label for="role">Role/Archetype</label>
+                        <select id="role">
+                            <option value="">Random Archetype</option>
+                            <option value="warrior">Warrior (Two-Handed Fighter)</option>
+                            <option value="duelist">Duelist (Finesse Master)</option>
+                            <option value="archer">Archer (Ranged Specialist)</option>
+                            <option value="spellcaster">Spellcaster (Magic User)</option>
+                            <option value="healer">Healer (Support Caster)</option>
+                            <option value="rogue">Rogue (Stealthy Operator)</option>
+                            <option value="tank">Tank (Defender)</option>
+                            <option value="assassin">Assassin (Damage Dealer)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="level">Level</label>
+                        <select id="level">
+                            <option value="">Random Level</option>
+                            <option value="1">Level 1</option>
+                            <option value="2">Level 2</option>
+                            <option value="3">Level 3</option>
+                            <option value="4">Level 4</option>
+                            <option value="5">Level 5</option>
+                            <option value="6">Level 6</option>
+                            <option value="7">Level 7</option>
+                            <option value="8">Level 8</option>
+                            <option value="9">Level 9</option>
+                            <option value="10">Level 10</option>
+                            <option value="11">Level 11</option>
+                            <option value="12">Level 12</option>
+                            <option value="13">Level 13</option>
+                            <option value="14">Level 14</option>
+                            <option value="15">Level 15</option>
+                        </select>
                     </div>
 
                     <div class="form-group">
                         <label for="isBoss">
                             <input type="checkbox" id="isBoss">
-                            <span>Boss NPC (higher level, special abilities)</span>
+                            <span>Boss NPC (special abilities & legendary actions)</span>
                         </label>
                     </div>
 
                     <button type="submit" class="btn-generate">⚔️ Generate NPC</button>
                 </form>
+
+                <hr class="form-divider">
+
+                <h2>Character Sheet Viewer</h2>
+                <div class="form-group">
+                    <label for="fileUpload">Upload NPC JSON</label>
+                    <input type="file" id="fileUpload" accept=".json">
+                </div>
+            
+                </form>
             </section>
 
             <!-- Output Panel -->
             <section class="output-panel">
+                <div class="output-controls hidden" id="outputControls">
+                    <button id="downloadBtn" class="btn-action">💾 Download as JSON</button>
+                    <button id="printBtn" class="btn-action">🖨️ Print</button>
+                </div>
                 <div id="output" class="stat-block hidden">
                     <!-- Generated stat block will appear here -->
                 </div>
